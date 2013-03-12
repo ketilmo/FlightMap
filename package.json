@@ -1,6 +1,6 @@
 {
   "name": "GliderLog",
-  "version": "0.0.1-2",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -12,5 +12,19 @@
   "subdomain": "GliderLog",
   "engines": {
     "node": "0.8.x"
-  }
+  },
+  "readmeFilename": "README.md",
+  "gitHead": "7444dd57607d2b465135d4f80f28731f95407db0",
+  "description": "GliderLog\r =========",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ketilmo/GliderLog.git"
+  },
+  "author": "Ketil Moland Olsen",
+  "license": "BSD"
 }
