@@ -1,0 +1,12 @@
+doctype 5
+html(lang="en")
+	head
+		title 500 - Internal Server Error
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body  
+	h1 500 - Internal Server Error
+	- if(typeof(stack) != 'undefined')
+		p
+			pre: code.stack!=stack
+	- else
+		p There was an error rendering this page. Sorry for the inconvenience.
