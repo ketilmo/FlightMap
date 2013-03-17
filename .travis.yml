@@ -1,11 +1,30 @@
-language: "node_js"
+---
+language: node_js
 node_js:
-  - "0.10"
-  - "0.8"
-  - "0.6"
+- '0.10'
+- '0.8'
+- '0.6'
 notifications:
-  webhooks: 
+  webhooks:
     urls:
-      - http://webhooks.nodejitsu.com/1/deploy
+    - http://webhooks.nodejitsu.com/1/deploy
     on_success: always
     on_failure: never
+env:
+  global:
+  - secure: |-
+      Vpetm/VDx4KVPpX+7Lh/mKNHnG3guIemkDjFBbkM4tco6gxEe0yChGjuDjwV
+      PF36FryVnhQM2j0dIYyDGLHiYqQagG/jVisUBx3QNvNRVFnn4iz44QJIDBf0
+      2hvJsQKkpHwlEofdflKLX6QuIY/dkkZWawcpy1tnWse6OQoR1/Y=
+  - secure: |-
+      BwMpUJWkDMy3JjHdwxFBrPZqpspPwLQIWR6r9gSg7yVVMcgcPuOmExS8EysT
+      PpxXp8fmWFJ/AWVZPv9udM9+Ix8QNuXLRi6TuKj4ONZnGlrKZfFWqR+0JmnW
+      6Gad2y5c8jrGyeQxTcE2VXtcMK+yOSSzbZYnlig/mlJDXEKbNE8=
+  - secure: |-
+      oJqh1HMylWmamYh0PSzExaxT1mSSvjnmfR54nsyvKT3zcs7GjKtfg2lzzvXW
+      fgApMLxD2h0s+n8YjpR4YvX1uvamFgTMEJE9YSA5AZI0F2hDj4tGDFu7oJD6
+      vgjO7yXlKm9TsF/d5RqIa8pRjXj7wCpF30nJPLUvaXOcIBXwqXc=
+  - secure: |-
+      oPhnoAHipf1v+4LDmf997wXFsyXNN2wrkTu2KFsyktUe8suQfFR0RdcWmPJc
+      FK8HkbrWWXqDy7rAn94Ql47JEu8NLOjbaSjuAMw0WI3CRhIDTNh4IkcvhET4
+      TN2dL+eZ3/m4srNJu8Pdtlkg79iz45i1kX1g2wL3IzH+gPn2NpM=

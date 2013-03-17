@@ -46,7 +46,8 @@ app.configure('production', function(){
 // Begin routes
 app.get('/', routes.index);
 app.post('/api/v1/post/inreach', inreach.postNewEntry);
-app.get('/api/v1/post/inreach', statusCodes.notAllowed);
+app.get('/api/v1/post/inreach', inreach.postNewEntry);
+// app.get('/api/v1/post/inreach', statusCodes.notAllowed);
 //End routes
 
 // Not Found

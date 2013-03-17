@@ -164,4 +164,4 @@ pip-log.txt
 
 # Node.js specific stuff
 node_modules
-log
+local
