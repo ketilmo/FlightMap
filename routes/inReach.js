@@ -36,6 +36,7 @@ exports.postNewEntry = function(req, res){
 					}
 				});
 			}
+			
 	}
 	else
 	{
