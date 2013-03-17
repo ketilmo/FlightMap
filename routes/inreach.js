@@ -40,7 +40,7 @@ exports.postNewEntry = function(req, res){
 				timeStamp: newEntry.Events[i].timeStamp,
 				latitude: newEntry.Events[i].point.latitude,
 				longitude: newEntry.Events[i].point.longitude,
-				altitude: newAltitude = newEntry.Events[i].point.altitude,
+				altitude: newEntry.Events[i].point.altitude,
 				gpsFix: newEntry.Events[i].point.gpsFix,
 				course: newEntry.Events[i].point.course,
 				speed: newEntry.Events[i].point.speed
