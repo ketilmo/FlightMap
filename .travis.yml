@@ -11,20 +11,20 @@ notifications:
     on_success: always
     on_failure: never
 env:
-  global:
+  matrix:
   - secure: |-
-      Vpetm/VDx4KVPpX+7Lh/mKNHnG3guIemkDjFBbkM4tco6gxEe0yChGjuDjwV
-      PF36FryVnhQM2j0dIYyDGLHiYqQagG/jVisUBx3QNvNRVFnn4iz44QJIDBf0
-      2hvJsQKkpHwlEofdflKLX6QuIY/dkkZWawcpy1tnWse6OQoR1/Y=
+      H8qpvGdaokG1ZGzDWQpfQEWr1+sLZEGqmRNarxSuyRS2TyGDowSwCi9/Esjk
+      enFagjHgwJDY5gwRRb0QFxP1Upg5V1GeAZ89WRl4fpMxUGFYn5lM4LDnicjf
+      bQrrCLB2kjnRzmURzTT0dm43fV4GSOIGhllg2kJGzp0s0zqvRcE=
   - secure: |-
-      BwMpUJWkDMy3JjHdwxFBrPZqpspPwLQIWR6r9gSg7yVVMcgcPuOmExS8EysT
-      PpxXp8fmWFJ/AWVZPv9udM9+Ix8QNuXLRi6TuKj4ONZnGlrKZfFWqR+0JmnW
-      6Gad2y5c8jrGyeQxTcE2VXtcMK+yOSSzbZYnlig/mlJDXEKbNE8=
+      P32OkJustd+XuuwlMbGxjPJXk5Lort6DQD7a3TAessVY7CK1uPA4+Dgwio4f
+      YxderGAcOSmEelcnOFbuBVMjkXJTPMafsuVEvSkHho9AjH2expZe6op63pDc
+      boUY/E9q/x3zwmvxwsV9DGfAzHl/ZYZHBv0kNNGg0TAzKUWjLzo=
   - secure: |-
-      oJqh1HMylWmamYh0PSzExaxT1mSSvjnmfR54nsyvKT3zcs7GjKtfg2lzzvXW
-      fgApMLxD2h0s+n8YjpR4YvX1uvamFgTMEJE9YSA5AZI0F2hDj4tGDFu7oJD6
-      vgjO7yXlKm9TsF/d5RqIa8pRjXj7wCpF30nJPLUvaXOcIBXwqXc=
+      abz9ppCPgHjeJT2KNMLFJkgkmj6R4+GXEeIbkrVaEClIxzTewhP+dac0A21K
+      xYe7WxTFazWgTGk6OYqBO8HYHrP7SZrwDAuEN9EvMYGtF6qJeDHY8UEikszM
+      NvxRX1BTnhldJKCIvhYK7Bqgq/SnMTHAx/6yqhj4+afASW/terk=
   - secure: |-
-      oPhnoAHipf1v+4LDmf997wXFsyXNN2wrkTu2KFsyktUe8suQfFR0RdcWmPJc
-      FK8HkbrWWXqDy7rAn94Ql47JEu8NLOjbaSjuAMw0WI3CRhIDTNh4IkcvhET4
-      TN2dL+eZ3/m4srNJu8Pdtlkg79iz45i1kX1g2wL3IzH+gPn2NpM=
+      p3gwDUYDP/iDQYfMnKx0kCMofwmdG53NSPNx+EZmScIhCFMyLc6M0k2UBnbh
+      8o9QOuINidprugPW504BFuleoQTEFXpbouiG3nmWMxcVO5yyJjbc8xr/t/D9
+      sbeaa9bcDYVeED8Ns7Q+5lKWKSq9MA1F52W6D6RlwKh5a0LSWNI=
