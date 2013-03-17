@@ -3,17 +3,7 @@ var mongooseModels = require('../lib/mongooseModels');
 
 exports.postNewEntry = function(req, res){
 	
-	var newEntry;
-	
-	try {
-		newEntry = JSON.parse(req.body);
-	} catch (err) {
-		newEntry = null;
-		console.log(err);
-		res.send('{ "Error": "JSON data contains errors."}', 500);
-		res.end;
-	}
-
+	var newEntry = req.body;
 	if (newEntry)
 	{
 		for (var i=0; i < newEntry.Events.length; i++){
@@ -46,5 +36,11 @@ exports.postNewEntry = function(req, res){
 					}
 				});
 			}
+	}
+	else
+	{
+		console.log("Error: Invalid payload.");
+		res.send('{ "Error": "Invalid payload."}', 500);
+		res.end;
 	}
 };

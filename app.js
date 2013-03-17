@@ -6,7 +6,7 @@ var express = require('express'),
 	http = require('http'),
 	path = require('path'),
 	routes = require('./routes'),
-	inreach = require('./routes/inreach'),
+	inreach = require('./routes/inReach'),
 	statusCodes = require('./routes/statusCodes');
 
 
