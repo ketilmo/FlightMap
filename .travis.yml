@@ -10,21 +10,23 @@ notifications:
     - http://webhooks.nodejitsu.com/1/deploy
     on_success: always
     on_failure: never
+  email:
+  - ketil@ketilmo.com
 env:
   global:
   - secure: |-
-      H8qpvGdaokG1ZGzDWQpfQEWr1+sLZEGqmRNarxSuyRS2TyGDowSwCi9/Esjk
-      enFagjHgwJDY5gwRRb0QFxP1Upg5V1GeAZ89WRl4fpMxUGFYn5lM4LDnicjf
-      bQrrCLB2kjnRzmURzTT0dm43fV4GSOIGhllg2kJGzp0s0zqvRcE=
+      dqaX9JB6L1uG81Xo8cmR/nc1WOqoQ8yIgjX77c259RsNJeLlknhcu1aCLM+m
+      9aA9Fln9ugvJhs48A0PeO1ChrsIaA0TU2difJ402ybE9zDByZC0zrUcbnHD1
+      8LuVl5pSqaZ3mSj1RCaFdDscWk8BLkuRbPSjgmuj825hoQuAe8M=
   - secure: |-
-      P32OkJustd+XuuwlMbGxjPJXk5Lort6DQD7a3TAessVY7CK1uPA4+Dgwio4f
-      YxderGAcOSmEelcnOFbuBVMjkXJTPMafsuVEvSkHho9AjH2expZe6op63pDc
-      boUY/E9q/x3zwmvxwsV9DGfAzHl/ZYZHBv0kNNGg0TAzKUWjLzo=
+      QHlgZK5pl2BdRgRnb1/DpZpSSfoVXo+a4pHpwSyCXPZt/1HgENYi5s4CBV33
+      VrEYx3cXXfsTnBeB0jS2Vx2Rzat2X9LCJPyW1JB6nWdfNVkVpTfq1EBbmz7Y
+      /OAiQVgcukqXdYydvILLQRE7XxIsvP9xa6pmlSwytLblQq8UuDI=
   - secure: |-
-      abz9ppCPgHjeJT2KNMLFJkgkmj6R4+GXEeIbkrVaEClIxzTewhP+dac0A21K
-      xYe7WxTFazWgTGk6OYqBO8HYHrP7SZrwDAuEN9EvMYGtF6qJeDHY8UEikszM
-      NvxRX1BTnhldJKCIvhYK7Bqgq/SnMTHAx/6yqhj4+afASW/terk=
+      PDID74ahRZrfNMTc3YvxL8eU6bm2XpeBoBwM9WESNOHPaGCKvMvSm+cJr4rx
+      H0sDHyUe03Z2bBEu9exdrZ6/Y0tKM9wpn2Cmmg82ynnOqAfmlLT6dwXtihnD
+      kojHrcbRI/dBI9qy8aKU6nCiMGza3306Qvh9OjmFZPLsnQkaRxc=
   - secure: |-
-      p3gwDUYDP/iDQYfMnKx0kCMofwmdG53NSPNx+EZmScIhCFMyLc6M0k2UBnbh
-      8o9QOuINidprugPW504BFuleoQTEFXpbouiG3nmWMxcVO5yyJjbc8xr/t/D9
-      sbeaa9bcDYVeED8Ns7Q+5lKWKSq9MA1F52W6D6RlwKh5a0LSWNI=
+      VbuWhKqZVM9BUjKXxbJDJxqkwjPHvLtCShvsrDqFZ2lRl65rjRWW7nrLy6Iu
+      tAW5aN3WS3LhtYQIO1KOE14oBoKgKFnSSCLeIFqAwmG/V903D/Pa+0faxZ3N
+      T6eHWysOo3C8m7kWs2D9Odl50xBw0v2mLiG0w/0n9lLJ7d4Cdg8=
