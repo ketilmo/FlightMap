@@ -67,6 +67,7 @@ db.once('open', function callback () {
 app.get('/', routes.index);
 app.post('/api/v1/post/inreach', inreach.postNewEntry);
 app.get('/api/v1/post/inreach', statusCodes.notAllowed);
+app.get('/test', inreach.test);
 //End routes
 
 // Not Found

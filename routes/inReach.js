@@ -45,3 +45,12 @@ exports.postNewEntry = function(req, res){
 		res.end;
 	}
 };
+
+exports.test = function(req, res){
+	mongooseModels.TrackPoint.find(function (err, trackpoints) {
+	//if (err) // TODO handle err
+	console.log(trackpoints);
+	res.send(trackpoints);
+	res.end(trackpoints);
+})
+};
