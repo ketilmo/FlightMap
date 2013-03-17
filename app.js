@@ -1,13 +1,14 @@
 /**
  * Module dependencies.
  */
+var express = require('express'),
+	mongoose = require('mongoose'),
+	http = require('http'),
+	path = require('path'),
+	routes = require('./routes'),
+	inreach = require('./routes/inreach'),
+	statusCodes = require('./routes/statusCodes');
 
-var express = require('express')
-  , routes = require('./routes')
-  , inreach = require('./routes/inreach')
-  , statusCodes = require('./routes/statusCodes')
-  , http = require('http')
-  , path = require('path');
 
 var app = express();
 
@@ -30,24 +31,42 @@ app.configure('development', function(){
     app.set('port', process.env.PORT || 3000);
     app.use(express.logger('dev'));
     app.use(error({ showMessage: true, dumpExceptions: true, showStack: true, logErrors: false }));
+	mongoose.connect(
+		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
+		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
+	);
 });
 
 app.configure('test', function(){
     app.set('port', process.env.PORT || 3000);
     app.use(express.logger('dev'));
     app.use(error({ showMessage: true, dumpExceptions: true, showStack: true, logErrors: false }));
+	mongoose.connect(
+		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
+		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
+	);
 });
 
 app.configure('production', function(){
-  app.set('port', process.env.PORT || 80);
-  app.use(error());
+	app.set('port', process.env.PORT || 80);
+	app.use(error());
+	mongoose.connect(
+		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
+		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
+	);
+});
+
+// Initiate database connection
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+	console.log("Successfully connected to database.");
 });
 
 // Begin routes
 app.get('/', routes.index);
 app.post('/api/v1/post/inreach', inreach.postNewEntry);
-app.get('/api/v1/post/inreach', inreach.postNewEntry);
-// app.get('/api/v1/post/inreach', statusCodes.notAllowed);
+app.get('/api/v1/post/inreach', statusCodes.notAllowed);
 //End routes
 
 // Not Found

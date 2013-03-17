@@ -1,6 +1,9 @@
 // Force the the test environment
 process.env.NODE_ENV = 'test';
 
+// Test data below!
+// var newEntry = JSON.parse('{"Version":"1.0","Events":[{"addresses":[],"imei":"300234010961140","messageCode":0,"freeText":null,"timeStamp":1363447981537,"point":{"latitude":43,"longitude":-72,"altitude":30,"gpsFix":0,"course":0,"speed":0},"status":{"autonomous":0,"lowBattery":0,"intervalChange":0}}]}');
+
 var restify = require('restify');
 var assert = require('assert');
 

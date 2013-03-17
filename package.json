@@ -1,6 +1,6 @@
 {
   "name": "GliderLog",
-  "version": "0.0.1-6",
+  "version": "0.0.1-7",
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -13,7 +13,7 @@
   },
   "subdomain": "GliderLog",
   "engines": {
-    "node": "0.10.x"
+    "node": "0.8.x"
   },
   "readmeFilename": "README.md",
   "gitHead": "7444dd57607d2b465135d4f80f28731f95407db0",
