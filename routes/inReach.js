@@ -10,11 +10,11 @@ exports.postNewEntry = function(req, res){
 		for (var i=0; i < newEntry.Events.length; i++){
 				
 				var trackPoint = new mongooseModels.TrackPoint({ 
-					gliderId: newEntry.Events[i].imei,
+					trackerId: newEntry.Events[i].imei,
 					messageCode: newEntry.Events[i].messageCode,
-					freeText: newEntry.Events[i].freeText,
+					message: newEntry.Events[i].freeText,
 					timeStamp: newEntry.Events[i].timeStamp,
-					location: [newEntry.Events[i].point.longitude, newEntry.Events[i].point.latitude],
+					location: { longitude: newEntry.Events[i].point.longitude, latitude: newEntry.Events[i].point.latitude },
 					altitude: newEntry.Events[i].point.altitude,
 					course: newEntry.Events[i].point.course,
 					speed: newEntry.Events[i].point.speed
@@ -35,7 +35,6 @@ exports.postNewEntry = function(req, res){
 					}
 				});
 			}
-			
 	}
 	else
 	{
@@ -51,13 +50,15 @@ exports.test = function(req, res){
 	geoJson = '{ "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": { "name": "KMOTEST" }, "geometry": { "type": "MultiLineString", "coordinates": [ [ ';
 	for (var i=0; i < trackpoints.length; i++){
 		console.log(trackpoints[i].location)
-		if (i==0)
-		{
-			geoJson += '[' + trackpoints[i].location + ']';
-		}
-		else
-		{
-			geoJson += ', [' + trackpoints[i].location + ']';
+		if (trackpoints[i].location.longitude != 0 && trackpoints[i].location.latitude != 0)
+			if (i==0)
+			{
+				geoJson += '[' + trackpoints[i].location + ']';
+			}
+			else
+			{
+				geoJson += ', [' + trackpoints[i].location + ']';
+			}
 		}
 	}
 	geoJson += ' ] ] } },]}';
