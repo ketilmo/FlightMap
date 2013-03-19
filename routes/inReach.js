@@ -64,6 +64,6 @@ exports.test = function(req, res){
 	}
 	geoJson += ' ] ] } },]}';
 	res.send(geoJson);
-	res.end(geoJson);
+	res.end;
 })
 };
