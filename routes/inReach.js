@@ -1,5 +1,6 @@
 // Setup database schemas
 var mongooseModels = require('../lib/mongooseModels');
+var GeoJSON = require('geojson');
 
 exports.postNewEntry = function(req, res){
 	
@@ -47,23 +48,30 @@ exports.postNewEntry = function(req, res){
 exports.test = function(req, res){
 	
 	mongooseModels.TrackPoint.find(function (err, trackpoints) {
-	geoJson = '{ "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": { "name": "KMOTEST" }, "geometry": { "type": "MultiLineString", "coordinates": [ [ ';
 	for (var i=0; i < trackpoints.length; i++){
 		console.log(trackpoints[i].location)
 		if (trackpoints[i].location.longitude != 0 && trackpoints[i].location.latitude != 0)
 		{
-			if (i==0)
-			{
-				geoJson += '[' + trackpoints[i].location + ']';
+			var arr = [];
+			var len = trackpoints.length;
+			for (var j = 0; j < len; j++) {
+			var obj = {
+				latitude: trackpoints[i].location.latitude,
+				longitude: trackpoints[i].location.longitude
+				};
+				arr.push(obj);
 			}
-			else
-			{
-				geoJson += ', [' + trackpoints[i].location + ']';
-			}
+		
 		}
 	}
-	geoJson += ' ] ] } },]}';
-	res.send(geoJson);
-	res.end;
+
+	
+	
+	GeoJSON.parse(arr, {Point: ['latitude', 'longitude']}, function(geojson){
+		res.send(geojson);
+		res.end;
+	});
+
+
 })
 };
