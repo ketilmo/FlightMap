@@ -24,7 +24,7 @@ exports.postNewEntry = function(req, res){
 				trackPoint.save(function (err, trackPoint){
 					if (err) {
 						console.log(err);
-						res.send('{ "Error": "Unable to save entry."}', 500);
+						res.send('{ "Error": "Unable to save entry."}', 400);
 						res.end;
 					}
 					else
@@ -40,7 +40,7 @@ exports.postNewEntry = function(req, res){
 	else
 	{
 		console.log("Error: Invalid payload.");
-		res.send('{ "Error": "Invalid payload."}', 500);
+		res.send('{ "Error": "Invalid payload."}', 400);
 		res.end;
 	}
 };
