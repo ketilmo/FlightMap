@@ -51,6 +51,7 @@ exports.test = function(req, res){
 	for (var i=0; i < trackpoints.length; i++){
 		console.log(trackpoints[i].location)
 		if (trackpoints[i].location.longitude != 0 && trackpoints[i].location.latitude != 0)
+		{
 			if (i==0)
 			{
 				geoJson += '[' + trackpoints[i].location + ']';
