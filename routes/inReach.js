@@ -25,12 +25,14 @@ exports.postNewEntry = function(req, res){
 				trackPoint.save(function (err, trackPoint){
 					if (err) {
 						console.log(err);
+						res.setHeader('Content-Type', 'application/json');
 						res.send('{ "Error": "Unable to save entry."}', 400);
 						res.end;
 					}
 					else
 					{
 						console.log(JSON.stringify(trackPoint));
+						res.setHeader('Content-Type', 'application/json');
 						res.send(JSON.stringify(trackPoint));
 						res.end;
 					}
@@ -40,6 +42,7 @@ exports.postNewEntry = function(req, res){
 	else
 	{
 		console.log("Error: Invalid payload.");
+		res.setHeader('Content-Type', 'application/json');
 		res.send('{ "Error": "Invalid payload."}', 400);
 		res.end;
 	}
@@ -48,26 +51,23 @@ exports.postNewEntry = function(req, res){
 exports.test = function(req, res){
 	
 	mongooseModels.TrackPoint.find(function (err, trackpoints) {
+	var geoArray = [];
+	
 	for (var i=0; i < trackpoints.length; i++){
 		console.log(trackpoints[i].location)
 		if (trackpoints[i].location.longitude != 0 && trackpoints[i].location.latitude != 0)
 		{
-			var arr = [];
-			var len = trackpoints.length;
-			for (var j = 0; j < len; j++) {
-			var obj = {
+			
+			var geoObj = {
 				latitude: trackpoints[i].location.latitude,
 				longitude: trackpoints[i].location.longitude
 				};
-				arr.push(obj);
-			}
-		
+				geoArray.push(geoObj);
 		}
 	}
 
-	
-	
-	GeoJSON.parse(arr, {Point: ['latitude', 'longitude']}, function(geojson){
+	GeoJSON.parse(geoArray, {Point: ['latitude', 'longitude']}, function(geojson){
+		res.setHeader('Content-Type', 'application/json');
 		res.send(geojson);
 		res.end;
 	});

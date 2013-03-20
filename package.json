@@ -1,6 +1,6 @@
 {
   "name": "GliderLog",
-  "version": "0.0.1-18",
+  "version": "0.0.1-25",
   "private": true,
   "scripts": {
     "start": "node app.js",
