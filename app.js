@@ -64,16 +64,33 @@ db.once('open', function callback () {
 });
 
 // Begin routes
-app.get('/', routes.index);
+//app.get('/', routes.index); // When disabled, use static index.html
 app.post('/api/v1/post/inreach', inreach.postNewEntry);
 app.get('/api/v1/post/inreach', statusCodes.notAllowed);
-app.get('/test', inreach.test);
+app.get('/points', inreach.points);
+app.get('/lines', inreach.lines);
 //End routes
 
 // Not Found
 app.use(statusCodes.notFound);
 
 
-http.createServer(app).listen(app.get('port'), function(){
+
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+module.exports.io = io; 
+
+server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+
+// Socket.io
+
+io.sockets.on('connection', function(socket) {
+	socket.emit('welcome', 'test');
+});
+
+
+
+
