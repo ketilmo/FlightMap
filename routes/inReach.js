@@ -1,7 +1,7 @@
 // Setup database schemas
 var mongooseModels = require('../lib/mongooseModels'),
-	app = require('../app')
-	clienGeoDataEmitter = require('../lib/clientGeoDataEmitter'),
+	app = require('../app'),
+	clientGeoDataEmitter = require('../lib/clientGeoDataEmitter'),
 	GeoJSON = require('geojson');
 
 
