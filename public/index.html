@@ -34,14 +34,14 @@
 				attribution: 'Map data &copy; <a href="http://www.kartverket.no/">Kartverket</a>, <a href="http://creativecommons.org/licenses/by/3.0/no/">CC-BY-NO</a>'
 			}).addTo(map);
 
+			var trackLayer = L.geoJson(null, { onEachFeature: onEachFeature }).addTo(map);
 
 
 			var socket = io.connect();
 			socket.on('trackData', function(trackData) {
-
-				var trackLayer = L.geoJson(null, { onEachFeature: onEachFeature }).addTo(map);
 				trackLayer.addData(trackData);
 				map.fitBounds(trackLayer.getBounds());
+				console.log(trackData);
 			});
 
 			function onEachFeature(feature, layer) {
