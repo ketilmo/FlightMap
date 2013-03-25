@@ -1,85 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>GliderLog Map</title>
-	<meta charset="utf-8" />
+<html>
+	<head>
+		<title>GliderLog</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+ 		
+ 		<!--[if lte IE 8]>
+     		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+ 		<![endif]-->
+ 		
+ 		<style type="text/css">
+ 			body {
+    			padding: 0;
+			    margin: 0;
+			}
+			html, body, #map {
+    			height: 100%;
+			}
+ 		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript">
 
-	 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-	<!--[if lte IE 8]><link rel="stylesheet" href="../dist/leaflet.ie.css" /><![endif]-->
-</head>
-<body>
-	<div id="map" style="width: 1600px; height: 800px"></div>
-	<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script>
+
+			var map = L.map('map').setView([60.3795075416565, 8.13684492111206], 8);
+			L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=norges_grunnkart&zoom={z}&x={x}&y={y}', {
+				maxZoom: 20,
+				attribution: 'Map data &copy; <a href="http://www.kartverket.no/">Kartverket</a>, <a href="http://creativecommons.org/licenses/by/3.0/no/">CC-BY-NO</a>'
+			}).addTo(map);
+
+
+
+			var socket = io.connect();
+			socket.on('trackData', function(trackData) {
+
+				var trackLayer = L.geoJson(null, { onEachFeature: onEachFeature }).addTo(map);
+				trackLayer.addData(trackData);
+				map.fitBounds(trackLayer.getBounds());
+			});
+
+			function onEachFeature(feature, layer) {
+    			if (feature.properties && feature.properties.popupContent) {
+	        		layer.bindPopup(feature.properties.popupContent);
+	    		}
+			}
+
 	
-	var socket = io.connect();
-	socket.on('line', function(data) {
-
-		var myLayer = L.geoJson().addTo(map);
-		myLayer.addData(data);
-		data = "";
-		
-		
-		console.log(data);
-	});
-	
-		socket.on('point', function(data) {
-
-		var myLayer = L.geoJson().addTo(map);
-		myLayer.addData(data);
-		data = "";
-		
-		
-		console.log(data);
-	});
-	
-	
-	
-	var myStyle = {
-    "color": "#ff7800",
-    "weight": 5,
-    "opacity": 0.65
-};
-	
-var mytrack = "";
-var myline = "";
-var map = L.map('map').setView([60.3795075416565, 5.33684492111206], 13);
-		
-		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-		}).addTo(map);
-
-		L.geoJson(mytrack, {
-  style: {
-    color: '#ff0000',
-    weight: 1,
-    opacity: 1
-  }
-}).addTo(map);
-
-function onEachFeature(feature, layer) {
-    // does this feature have a property named popupContent?
-    if (feature.properties && feature.properties.popupContent) {
-        layer.bindPopup(feature.properties.popupContent);
-    }
-}
-
-L.geoJson(mytrack, {
-  onEachFeature: onEachFeature,
-  style: {
-    color: '#ff0000',
-    weight: 1,
-    opacity: 1
-  }
-}).addTo(map);
-
-
-
-
-	</script>
-</body>
+		</script>
+	</body>
 </html>

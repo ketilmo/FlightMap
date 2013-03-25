@@ -7,8 +7,8 @@ var express = require('express'),
 	path = require('path'),
 	routes = require('./routes'),
 	inreach = require('./routes/inReach'),
-	statusCodes = require('./routes/statusCodes');
-
+	statusCodes = require('./routes/statusCodes'),
+	clientGeoDataEmitter = require('./lib/clientGeoDataEmitter');
 
 var app = express();
 
@@ -67,8 +67,8 @@ db.once('open', function callback () {
 //app.get('/', routes.index); // When disabled, use static index.html
 app.post('/api/v1/post/inreach', inreach.postNewEntry);
 app.get('/api/v1/post/inreach', statusCodes.notAllowed);
-app.get('/points', inreach.points);
-app.get('/lines', inreach.lines);
+app.get('/points', clientGeoDataEmitter.points);
+app.get('/lines', clientGeoDataEmitter.lines);
 //End routes
 
 // Not Found
@@ -88,7 +88,7 @@ server.listen(app.get('port'), function(){
 // Socket.io
 
 io.sockets.on('connection', function(socket) {
-	socket.emit('welcome', 'test');
+	clientGeoDataEmitter.onConnection(socket);
 });
 
 

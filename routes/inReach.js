@@ -1,6 +1,8 @@
 // Setup database schemas
-var mongooseModels = require('../lib/mongooseModels');
-var GeoJSON = require('geojson');
+var mongooseModels = require('../lib/mongooseModels'),
+	app = require('../app')
+	clienGeoDataEmitter = require('../lib/clientGeoDataEmitter'),
+	GeoJSON = require('geojson');
 
 
 exports.postNewEntry = function(req, res){
@@ -36,6 +38,8 @@ exports.postNewEntry = function(req, res){
 						res.setHeader('Content-Type', 'application/json');
 						res.send(JSON.stringify(trackPoint));
 						res.end;
+						clientGeoDataEmitter.updateClients(app.io);
+
 					}
 				});
 			}
@@ -49,53 +53,4 @@ exports.postNewEntry = function(req, res){
 	}
 };
 
-exports.points = function(req, res){
-	
-	mongooseModels.TrackPoint.find(function (err, trackpoints) {
-	var geoArray = [];
-	
-	for (var i=0; i < trackpoints.length; i++){
-		console.log(trackpoints[i].location)
-		if (trackpoints[i].location.longitude != 0 && trackpoints[i].location.latitude != 0)
-		{
-			var geoObj = {
-				latitude: trackpoints[i].location.latitude,
-				longitude: trackpoints[i].location.longitude,
-				popupContent: '<b>Time:</b> ' + trackpoints[i].timeStamp + '<br><b>Altitude:</b> ' + trackpoints[i].altitude + '<br><b>Speed:</b> ' + trackpoints[i].speed + '<br><b>Course:</b> ' + trackpoints[i].course
-				};
-				geoArray.push(geoObj);
-		}
-	}
-	GeoJSON.parse(geoArray, {Point: ['latitude', 'longitude']}, function(geojson){
-		res.setHeader('Content-Type', 'application/json');
-		res.send(geojson);
-		res.end;
-		io = require('../app').io;
-		io.sockets.emit('point', geojson);
-	});
-})
-};
 
-exports.lines = function(req, res){
-	
-	mongooseModels.TrackPoint.find().sort('-timeStamp').exec(function (err, trackpoints) {
-	var geoArray = [];
-	
-	for (var i=0; i < trackpoints.length; i++){
-		console.log(trackpoints[i].location)
-		if (trackpoints[i].location.longitude != 0 && trackpoints[i].location.latitude != 0)
-		{
-				geoArray.push([trackpoints[i].location.longitude, trackpoints[i].location.latitude]);
-		}
-	}
-
-	geoArray = [{ line: geoArray }];
-	GeoJSON.parse(geoArray, {'LineString': 'line' }, function(geojson){
-		res.setHeader('Content-Type', 'application/json');
-		res.send(geojson);
-		res.end;
-		io = require('../app').io;
-		io.sockets.emit('line', geojson);
-	});
-})
-};
