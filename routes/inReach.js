@@ -6,13 +6,15 @@ var mongooseModels = require('../lib/mongooseModels'),
 
 
 exports.postInReachEntries = function(req, res){
-	
+
 	var inReachEntries = req.body;
 
 	if (inReachEntries.Events.length > 0)
 	{
+		
+		res.setHeader('Content-Type', 'application/json');
+
 		saveInReachEntries(inReachEntries, function(message, statusCode){
-			res.setHeader('Content-Type', 'application/json');
 			res.send(message, statusCode);
 			res.end;
 		});
@@ -42,8 +44,8 @@ function saveInReachEntries(inReachEntries, callback){
 		}); 
 
 		// Is the transmitted data valid?
-		if ((isNumeric(trackPoint.trackerId)) && (trackPoint.trackerId.length == 15) ) {
-
+		if (!(isNaN(trackPoint.trackerId)) && (trackPoint.trackerId.toString().length == 15) ) {
+			console
 			// Save entry to database
 			trackPoint.save(function (err, trackPoint){
 				// If there were errors during save, return an error message to the inReach server.
