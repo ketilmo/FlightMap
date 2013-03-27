@@ -65,7 +65,7 @@ db.once('open', function callback () {
 
 // Begin routes
 //app.get('/', routes.index); // When disabled, use static index.html
-app.post('/api/v1/post/inreach', inreach.postNewEntry);
+app.post('/api/v1/post/inreach', inreach.postInReachEntries);
 app.get('/api/v1/post/inreach', statusCodes.notAllowed);
 app.get('/points', clientGeoDataEmitter.points);
 app.get('/lines', clientGeoDataEmitter.lines);

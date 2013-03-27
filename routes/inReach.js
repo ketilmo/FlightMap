@@ -5,52 +5,62 @@ var mongooseModels = require('../lib/mongooseModels'),
 	GeoJSON = require('geojson');
 
 
-exports.postNewEntry = function(req, res){
+exports.postInReachEntries = function(req, res){
 	
-	var newEntry = req.body;
-		
-	if (newEntry)
+	var inReachEntries = req.body;
+
+	if (inReachEntries.Events.length > 0)
 	{
-		for (var i=0; i < newEntry.Events.length; i++){
-				
-				var trackPoint = new mongooseModels.TrackPoint({ 
-					trackerId: newEntry.Events[i].imei,
-					messageCode: newEntry.Events[i].messageCode,
-					message: newEntry.Events[i].freeText,
-					timeStamp: newEntry.Events[i].timeStamp,
-					location: { longitude: newEntry.Events[i].point.longitude, latitude: newEntry.Events[i].point.latitude },
-					altitude: newEntry.Events[i].point.altitude,
-					course: newEntry.Events[i].point.course,
-					speed: newEntry.Events[i].point.speed
-				}); 
-
-				// Save to database
-				trackPoint.save(function (err, trackPoint){
-					if (err) {
-						console.log(err);
-						res.setHeader('Content-Type', 'application/json');
-						res.send('{ "Error": "Unable to save entry."}', 400);
-						res.end;
-					}
-					else
-					{
-						console.log(JSON.stringify(trackPoint));
-						res.setHeader('Content-Type', 'application/json');
-						res.send(JSON.stringify(trackPoint));
-						res.end;
-						clientGeoDataEmitter.updateClients(app.io);
-
-					}
-				});
-			}
+		saveInReachEntries(inReachEntries, function(message, statusCode){
+			res.setHeader('Content-Type', 'application/json');
+			res.send(message, statusCode);
+			res.end;
+		});
 	}
 	else
 	{
-		console.log("Error: Invalid payload.");
 		res.setHeader('Content-Type', 'application/json');
 		res.send('{ "Error": "Invalid payload."}', 400);
 		res.end;
 	}
 };
 
+function saveInReachEntries(inReachEntries, callback){
+	for (var i=0; i < inReachEntries.Events.length; i++){
+		
+		var inReachEntry = inReachEntries.Events[i];
 
+		var trackPoint = new mongooseModels.TrackPoint({ 
+			trackerId: inReachEntry.imei,
+			messageCode: inReachEntry.messageCode,
+			message: inReachEntry.freeText,
+			timeStamp: inReachEntry.timeStamp,
+			location: { longitude: inReachEntry.point.longitude, latitude: inReachEntry.point.latitude },
+			altitude: inReachEntry.point.altitude,
+			course: inReachEntry.point.course,
+			speed: inReachEntry.point.speed
+		}); 
+
+		// Is the transmitted data valid?
+		if ((isNumeric(trackPoint.trackerId)) && (trackPoint.trackerId.length == 15) ) {
+
+			// Save entry to database
+			trackPoint.save(function (err, trackPoint){
+				// If there were errors during save, return an error message to the inReach server.
+				if (err) {
+					callback('{ "Error": "Unable to save entry."}', 400);
+					return;
+				}
+			});
+		} 
+		// Invalid data submitted.
+		else
+		{
+			callback('{ "Error": "Invalid payload."}', 400);
+		}
+	}
+	
+	// If save of all entries was successful, send a positive response to the inReach server.
+	clientGeoDataEmitter.updateClients(app.io);
+	callback('{ "Success": "Entry saved successfully."}', 200);
+}
