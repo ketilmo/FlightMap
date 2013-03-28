@@ -3,35 +3,50 @@ process.env.NODE_ENV = 'test';
 
 // Test data below!
 // var newEntry = JSON.parse('{"Version":"1.0","Events":[{"addresses":[],"imei":"300234010961140","messageCode":0,"freeText":null,"timeStamp":1363447981537,"point":{"latitude":43,"longitude":-72,"altitude":30,"gpsFix":0,"course":0,"speed":0},"status":{"autonomous":0,"lowBattery":0,"intervalChange":0}}]}');
-function generateInReachPayload()
+function generateInReachPayload(numberOfEvents)
 {
- return { 
+ var inReachPayload = { 
 	Version :"1.0",
-	Events : [
-		{ 
-			addresses : [],
-			imei : "300234010961140",
-			messageCode : "14",
-			freeText : "Hello world!",
-			timeStamp : "1363447981537",
-			point:
-				{
-					latitude : "43",
-					longitude : "-72",
-					altitude : "30",
-					gpsFix : "2",
-					course : "180",
-					speed : "12"
-				},
-			status :
-				{
-					autonomous : "0",
-					lowBattery : "0",
-					intervalChange : "0"
-				}
-			}
-			]
+	Events : []
 		};
+
+
+	if (!numberOfEvents || numberOfEvents < 1) 
+	{
+		numberOfEvents = 1;
+	}
+
+	for (var i=0; i < numberOfEvents; i++)
+	{
+		inReachPayload.Events.push(
+
+			{ 
+				addresses : [],
+				imei : "300234010961140",
+				messageCode : "14",
+				freeText : "Hello world!",
+				timeStamp : (new Date).getTime(), // Set a fresh date here in Epoch format.
+				point:
+					{
+						latitude : "60.3729736804962",
+						longitude : "5.37759304046631",
+						altitude : "310",
+						gpsFix : "2",
+						course : "180",
+						speed : "12"
+					},
+				status :
+					{
+						autonomous : "0",
+						lowBattery : "0",
+						intervalChange : "0"
+					}
+				}
+		);
+	}	
+
+	return inReachPayload;
+
 }
 
 var restify = require('restify');
@@ -53,22 +68,14 @@ describe('\r\nWhen using the inReach Inbound API', function()
 	{
 		it('should return status code 405 Not Allowed', function(done) {
 			client.get('/api/v1/post/inreach', function(err, req, res, data) {
-                if (err.statusCode === 405) {
-                    done();
-                }
-                else {
-					throw new Error('Invalid response code from /api/v1/post/inreach. Expected 405 got ' + err.statusCode + '.');
-                }
+                assert(res.statusCode === 405, 'Invalid response code from /api/v1/post/inreach. Expected 405 got ' + err.statusCode + '.');
+                done();
             });
 		});
 		it('should return the message {\"error\":\"Not allowed\"}', function(done) {
 			client.get('/api/v1/post/inreach', function(err, req, res, data) {
-				if (err.body.error === 'Not allowed') {
-                    done();
-                }
-                else {
-					throw new Error('Invalid response message from /api/v1/post/inreach. Expected \'Not allowed\' got \'' + err.body.error + '\'.');
-                }
+				assert(err.body.error === 'Not allowed', 'Invalid response message from /api/v1/post/inreach. Expected \'Not allowed\' got \'' + err.body.error + '\'.');
+                done();
             });
 		});
 	});
@@ -77,19 +84,13 @@ describe('\r\nWhen using the inReach Inbound API', function()
 		it('should return code 200 if everything went fine', function(done) {
 			var validInReachPayload = generateInReachPayload();
 			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
-  				if (res.statusCode == 200 )
-  				{
-  					done();
-  				}
-  				else
-  				{
-  					throw new Error('Invalid response code from /api/v1/post/inreach. Expected 200 got ' + res.statusCode + '.');
-  				}
+  				assert(res.statusCode == 200, 'Invalid response code from /api/v1/post/inreach. Expected 200 got ' + res.statusCode + '.');
+  				done();
 			});
 
 		});
 
-		it('should return a receipt of the submitted data as json', function(done) {
+		it('should return a receipt of the submitted data as json, matching the sent data', function(done) {
 			var validInReachPayload = generateInReachPayload();
 			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
   				var inReachResponse = JSON.parse(res.body);
@@ -113,6 +114,26 @@ describe('\r\nWhen using the inReach Inbound API', function()
   					 assert(inReachResponse[i].speed == validInReachPayload.Events[i].point.speed, 
   						'Returned speed doesn\'t match posted speed. Expected ' + validInReachPayload.Events[i].point.speed + ' got ' + inReachResponse[i].location.speed + '.');
   				}
+  				done();
+			});
+
+		});
+
+		it('should accept payloads with a single Event', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 200, 'Invalid response code from /api/v1/post/inreach. Expected 200 got ' + res.statusCode + '.');
+  				done();
+			});
+
+		});
+
+		it('should accept payloads with a multiple Events', function(done) {
+			var validInReachPayload = generateInReachPayload(3);
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 200, 'Invalid response code from /api/v1/post/inreach. Expected 200 got ' + res.statusCode + '.');
   				done();
 			});
 

@@ -48,7 +48,6 @@ function saveInReachEntries(inReachEntries, callback){
 
 		// Is the transmitted data valid?
 		if (!(isNaN(trackPoint.trackerId)) && (trackPoint.trackerId.toString().length == 15) ) {
-			console
 			// Save entry to database
 			trackPoint.save(function (err, trackPoint){
 				// If there were errors during save, return an error message to the inReach server.
@@ -58,7 +57,9 @@ function saveInReachEntries(inReachEntries, callback){
 					return;
 				}
 			});
+
 			trackPoints.push(trackPoint);
+
 		} 
 		// Invalid data submitted.
 		else
