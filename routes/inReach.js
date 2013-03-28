@@ -28,6 +28,8 @@ exports.postInReachEntries = function(req, res){
 };
 
 function saveInReachEntries(inReachEntries, callback){
+	var trackPoints = [];
+
 	for (var i=0; i < inReachEntries.Events.length; i++){
 		
 		var inReachEntry = inReachEntries.Events[i];
@@ -43,17 +45,20 @@ function saveInReachEntries(inReachEntries, callback){
 			speed: inReachEntry.point.speed
 		}); 
 
+
 		// Is the transmitted data valid?
 		if (!(isNaN(trackPoint.trackerId)) && (trackPoint.trackerId.toString().length == 15) ) {
 			console
 			// Save entry to database
 			trackPoint.save(function (err, trackPoint){
 				// If there were errors during save, return an error message to the inReach server.
+
 				if (err) {
 					callback('{ "Error": "Unable to save entry."}', 400);
 					return;
 				}
 			});
+			trackPoints.push(trackPoint);
 		} 
 		// Invalid data submitted.
 		else
@@ -64,5 +69,5 @@ function saveInReachEntries(inReachEntries, callback){
 	
 	// If save of all entries was successful, send a positive response to the inReach server.
 	clientGeoDataEmitter.updateClients(app.io);
-	callback('{ "Success": "Entry saved successfully."}', 200);
+	callback(JSON.stringify(trackPoints), 200);
 }
