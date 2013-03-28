@@ -47,7 +47,17 @@ function saveInReachEntries(inReachEntries, callback){
 
 
 		// Is the transmitted data valid?
-		if (!(isNaN(trackPoint.trackerId)) && (trackPoint.trackerId.toString().length == 15) ) {
+		if (!(isNaN(trackPoint.trackerId)) && 
+			(trackPoint.trackerId.toString().length == 15) && 
+			!(isNaN(trackPoint.location.latitude)) && 
+			!(isNaN(trackPoint.location.longitude)) &&
+			!(isNaN(trackPoint.altitude)) &&
+			!(isNaN(trackPoint.course)) &&
+			!(isNaN(trackPoint.speed)) &&
+			!(isNaN(trackPoint.messageCode)) &&
+			(new Date(trackPoint.timeStamp))
+			) {
+			
 			// Save entry to database
 			trackPoint.save(function (err, trackPoint){
 				// If there were errors during save, return an error message to the inReach server.

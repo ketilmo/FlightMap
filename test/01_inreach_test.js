@@ -1,8 +1,7 @@
 // Force the the test environment
 process.env.NODE_ENV = 'test';
 
-// Test data below!
-// var newEntry = JSON.parse('{"Version":"1.0","Events":[{"addresses":[],"imei":"300234010961140","messageCode":0,"freeText":null,"timeStamp":1363447981537,"point":{"latitude":43,"longitude":-72,"altitude":30,"gpsFix":0,"course":0,"speed":0},"status":{"autonomous":0,"lowBattery":0,"intervalChange":0}}]}');
+// Generate payload object that can be customized later.
 function generateInReachPayload(numberOfEvents)
 {
  var inReachPayload = { 
@@ -64,14 +63,17 @@ var client = restify.createJsonClient({
 
 describe('\r\nWhen using the inReach Inbound API', function()
 {
+
 	describe('accessing the POST URI via HTTP GET', function()
 	{
+
 		it('should return status code 405 Not Allowed', function(done) {
 			client.get('/api/v1/post/inreach', function(err, req, res, data) {
                 assert(res.statusCode === 405, 'Invalid response code from /api/v1/post/inreach. Expected 405 got ' + err.statusCode + '.');
                 done();
             });
 		});
+
 		it('should return the message {\"error\":\"Not allowed\"}', function(done) {
 			client.get('/api/v1/post/inreach', function(err, req, res, data) {
 				assert(err.body.error === 'Not allowed', 'Invalid response message from /api/v1/post/inreach. Expected \'Not allowed\' got \'' + err.body.error + '\'.');
@@ -79,7 +81,8 @@ describe('\r\nWhen using the inReach Inbound API', function()
             });
 		});
 	});
-	describe('posting a valid paylod', function()
+
+	describe('posting a paylod', function()
 	{
 		it('should return code 200 if everything went fine', function(done) {
 			var validInReachPayload = generateInReachPayload();
@@ -138,11 +141,107 @@ describe('\r\nWhen using the inReach Inbound API', function()
 			});
 
 		});
-	
+
+		it('should return response code 400 if the imei number is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].imei = "abcdefghijklmno";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+
+		});
+
+		it('should return response code 400 if the imei number is not exactly 15 characters long', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].imei = "123456789";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the latitude is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].point.latitude = "abc";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the longitude is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].point.longitude = "def";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the longitude is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].point.longitude = "def";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the altitude is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].point.altitude = "ghi";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the course is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].point.course = "jkl";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the speed is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].point.speed = "mno";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the messageCode is not numeric', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].messageCode = "pqr";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the timeStamp is not a valid date', function(done) {
+			var validInReachPayload = generateInReachPayload();
+			validInReachPayload.Events[0].timeStamp = "13/14/15";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+  				var inReachResponse = JSON.parse(res.body);
+  				assert(res.statusCode == 400, 'Invalid response code from /api/v1/post/inreach. Expected 400 got ' + res.statusCode + '.');
+  				done();
+			});
+		});
+
 	});
-	it('should receive POST submissions');
-	it('should parse the data from the submissions');
-	it('should write the parsed data to the database');
-	it('should return code 200 if everything went fine')
-	it('should return code 500 i something went wrong');
 });
