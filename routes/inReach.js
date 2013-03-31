@@ -1,72 +1,70 @@
 // Setup database schemas
 var mongooseModels = require('../lib/mongooseModels'),
-	app = require('../app'),
-	clientGeoDataEmitter = require('../lib/clientGeoDataEmitter'),
+	globalEvents = require('../lib/globalEvents'),
 	GeoJSON = require('geojson'),
-	moment = require('moment');
+	moment = require('moment'),
+	check = require('validator').check;
 
 exports.postInReachEntries = function(req, res){
-
-	var inReachEntries = req.body;
-
-	if (inReachEntries.Events.length > 0)
-	{
-		
+	
+	saveInReachEntries(req.body, function(message, statusCode){
 		res.setHeader('Content-Type', 'application/json; charset=utf-8');
-
-		saveInReachEntries(inReachEntries, function(message, statusCode){
-			res.send(message, statusCode);
-			res.end;
-		});
-	}
-	else
-	{
-		res.setHeader('Content-Type', 'application/json; charset=utf-8');
-		res.send('{ "Error": "Invalid payload."}', 400);
+		res.send(message, statusCode);
 		res.end;
-	}
+	});
+	
 };
 
 function saveInReachEntries(inReachEntries, callback){
-	var trackPoints = [];
 
+	try {
+		
+		// Validate payload
+		check(typeof inReachEntries.Events === "undefined").equals(false);
+	}
+	catch (e) {
+			
+		// Paylod is missing Events.
+		callback('{ "Error": "Invalid payload."}', 400);
+		return;
+	}
+
+	var trackPoints = [];
 	for (var i=0; i < inReachEntries.Events.length; i++){
 		
 		var inReachEntry = inReachEntries.Events[i];
 
-		
 		// Is the transmitted data valid?
-		if (!(isNaN(inReachEntry.imei)) && 
-			(inReachEntry.imei.toString().length === 15) && 
-			!(isNaN(inReachEntry.point.latitude)) && 
-			!(isNaN(inReachEntry.point.longitude)) &&
-			!(isNaN(inReachEntry.point.altitude)) &&
-			!(isNaN(inReachEntry.point.course)) &&
-			!(isNaN(inReachEntry.point.speed)) &&
-			!(isNaN(inReachEntry.messageCode)) &&
-			(moment(inReachEntry.timeStamp).isValid())
-			)
-		{
-			var trackPoint = new mongooseModels.TrackPoint({ 
-				trackerId: inReachEntry.imei,
-				messageCode: inReachEntry.messageCode,
-				message: inReachEntry.freeText,
-				timeStamp: inReachEntry.timeStamp,
-				location: { longitude: inReachEntry.point.longitude, latitude: inReachEntry.point.latitude },
-				altitude: inReachEntry.point.altitude,
-				course: inReachEntry.point.course,
-				speed: inReachEntry.point.speed
-			}); 
-
-			trackPoints.push(trackPoint);
-			
+		try {		
+			check(parseInt(inReachEntry.imei)).notNull().isNumeric().len(15,15);
+			check(parseInt(inReachEntry.point.latitude)).isNumeric();
+			check(parseInt(inReachEntry.point.longitude)).isNumeric();
+			check(parseInt(inReachEntry.point.altitude)).isNumeric();
+			check(parseInt(inReachEntry.point.course)).isNumeric();
+			check(parseInt(inReachEntry.point.speed)).isNumeric();
+			check(parseInt(inReachEntry.messageCode)).isNumeric();
+			check(moment(inReachEntry.timeStamp).isValid()).equals(true);    
 		} 
-		else
-		{
+
+		catch (e) {
 			// Invalid data submitted.
 			callback('{ "Error": "Invalid payload."}', 400);
 			return;
 		}
+
+		// Data is valid.
+		var trackPoint = new mongooseModels.TrackPoint({ 
+			trackerId: inReachEntry.imei,
+			messageCode: inReachEntry.messageCode,
+			message: inReachEntry.freeText,
+			timeStamp: inReachEntry.timeStamp,
+			location: { longitude: inReachEntry.point.longitude, latitude: inReachEntry.point.latitude },
+			altitude: inReachEntry.point.altitude,
+			course: inReachEntry.point.course,
+			speed: inReachEntry.point.speed
+		}); 
+
+		trackPoints.push(trackPoint);
 	}
 
 	// Save entries to database
@@ -85,10 +83,9 @@ function saveInReachEntries(inReachEntries, callback){
         	else if (processedTrackPoints.length === trackPoints.length)
         	{
            		callback(JSON.stringify(trackPoints), 200);
-				clientGeoDataEmitter.updateClients(app.io);	
+				globalEvents.ee.emit('inReachTracksSaved');
         	}	
 
     	});	
 	});
-
 }

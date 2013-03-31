@@ -102,7 +102,7 @@ describe('\r\nWhen using the inReach Inbound API,', function()
 		});
 
 
-		it('should return the processed values, and they should match posted ones', function(done) {
+		it('should return the processed values, and they should match the posted ones', function(done) {
 			var validInReachPayload = generateInReachPayload();
 			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
   				var apiResponse = JSON.parse(res.body);
@@ -226,6 +226,14 @@ describe('\r\nWhen using the inReach Inbound API,', function()
 		it('should return response code 400 if the timeStamp is not a valid date', function(done) {
 			var validInReachPayload = generateInReachPayload();
 			validInReachPayload.Events[0].timeStamp = "17/18/";
+			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
+				res.should.have.status(400);
+  				done();
+			});
+		});
+
+		it('should return response code 400 if the payload does not contain any Events', function(done) {
+			var validInReachPayload = { empty: "string" };
 			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
 				res.should.have.status(400);
   				done();
