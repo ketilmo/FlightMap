@@ -20,12 +20,12 @@ function saveInReachEntries(inReachEntries, callback){
 	try {
 		
 		// Validate payload
-		check(typeof inReachEntries.Events === "undefined").equals(false);
+		check((typeof inReachEntries.Events === "undefined"), 'No Events found in payload.').equals(false);
 	}
 	catch (e) {
 			
 		// Paylod is missing Events.
-		callback('{ "Error": "Invalid payload."}', 400);
+		callback('{ "Error": "' + e.message + '"}', 400);
 		return;
 	}
 
@@ -36,19 +36,19 @@ function saveInReachEntries(inReachEntries, callback){
 
 		// Is the transmitted data valid?
 		try {		
-			check(parseInt(inReachEntry.imei)).notNull().isNumeric().len(15,15);
-			check(parseInt(inReachEntry.point.latitude)).isNumeric();
-			check(parseInt(inReachEntry.point.longitude)).isNumeric();
-			check(parseInt(inReachEntry.point.altitude)).isNumeric();
-			check(parseInt(inReachEntry.point.course)).isNumeric();
-			check(parseInt(inReachEntry.point.speed)).isNumeric();
-			check(parseInt(inReachEntry.messageCode)).isNumeric();
-			check(moment(inReachEntry.timeStamp).isValid()).equals(true);    
+			check(parseInt(inReachEntry.imei), 'Missing or invalid imei.').notNull().isNumeric().len(15,15);
+			check(parseInt(inReachEntry.point.latitude), 'Missing or invalid latitude.').isNumeric();
+			check(parseInt(inReachEntry.point.longitude), 'Missing or invalid longitude.').isNumeric();
+			check(parseInt(inReachEntry.point.altitude), 'Missing or invalid altitude.').isNumeric();
+			check(parseInt(inReachEntry.point.course), 'Missing or invalid course.').isNumeric();
+			check(parseInt(inReachEntry.point.speed), 'Missing or invalid speed.').isNumeric();
+			check(parseInt(inReachEntry.messageCode), 'Missing or invalid messageCode.').isNumeric();
+			check(moment(inReachEntry.timeStamp).isValid(), 'Missing or invalid timeStamp.').equals(true);    
 		} 
 
 		catch (e) {
 			// Invalid data submitted.
-			callback('{ "Error": "Invalid payload."}', 400);
+			callback('{ "Error": "' + e.message + '"}', 400);
 			return;
 		}
 
@@ -77,7 +77,7 @@ function saveInReachEntries(inReachEntries, callback){
 
         	if (err)
         	{
-				callback('{ "Error": "Unable to save entry."}', 400);
+				callback('{ "Error": "' + err.message + '"}', 400);
 			}
 
         	else if (processedTrackPoints.length === trackPoints.length)
@@ -85,7 +85,6 @@ function saveInReachEntries(inReachEntries, callback){
            		callback(JSON.stringify(trackPoints), 200);
 				globalEvents.ee.emit('inReachTracksSaved');
         	}	
-
     	});	
 	});
 }

@@ -81,7 +81,7 @@ describe('\r\nWhen using the inReach Inbound API,', function()
 		});
 	});
 
-	describe('posting a payload', function()
+	describe('posting a valid payload', function()
 	{
 		it('should return code 200 if everything went fine', function(done) {
 			var validInReachPayload = generateInReachPayload();
@@ -140,7 +140,10 @@ describe('\r\nWhen using the inReach Inbound API,', function()
 			});
 
 		});
+	});
 
+	describe('posting an invalid payload', function()
+	{
 		it('should return response code 400 if the imei number is not numeric', function(done) {
 			var validInReachPayload = generateInReachPayload();
 			validInReachPayload.Events[0].imei = "abcdefghijklmno";
@@ -233,7 +236,7 @@ describe('\r\nWhen using the inReach Inbound API,', function()
 		});
 
 		it('should return response code 400 if the payload does not contain any Events', function(done) {
-			var validInReachPayload = { empty: "string" };
+			var validInReachPayload = { empty: 0 };
 			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
 				res.should.have.status(400);
   				done();
