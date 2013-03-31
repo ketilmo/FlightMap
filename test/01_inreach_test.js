@@ -60,7 +60,7 @@ var client = restify.createJsonClient({
     url: 'http://127.0.0.1:3000'
 });
 
-describe('\r\nWhen using the inReach Inbound API', function()
+describe('\r\nWhen using the inReach Inbound API,', function()
 {
 
 	describe('accessing the POST URI via HTTP GET', function()
@@ -81,7 +81,7 @@ describe('\r\nWhen using the inReach Inbound API', function()
 		});
 	});
 
-	describe('posting a paylod', function()
+	describe('posting a payload', function()
 	{
 		it('should return code 200 if everything went fine', function(done) {
 			var validInReachPayload = generateInReachPayload();
@@ -225,7 +225,7 @@ describe('\r\nWhen using the inReach Inbound API', function()
 
 		it('should return response code 400 if the timeStamp is not a valid date', function(done) {
 			var validInReachPayload = generateInReachPayload();
-			validInReachPayload.Events[0].timeStamp = "13/14/15";
+			validInReachPayload.Events[0].timeStamp = "17/18/";
 			client.post('/api/v1/post/inreach', validInReachPayload, function(err, req, res, obj) {
 				res.should.have.status(400);
   				done();

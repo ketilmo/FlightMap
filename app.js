@@ -74,8 +74,6 @@ app.get('/lines', clientGeoDataEmitter.lines);
 // Not Found
 app.use(statusCodes.notFound);
 
-
-
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 module.exports.io = io; 
