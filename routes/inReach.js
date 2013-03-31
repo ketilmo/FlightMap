@@ -12,7 +12,7 @@ exports.postInReachEntries = function(req, res){
 	if (inReachEntries.Events.length > 0)
 	{
 		
-		res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
 		saveInReachEntries(inReachEntries, function(message, statusCode){
 			res.send(message, statusCode);
@@ -21,7 +21,7 @@ exports.postInReachEntries = function(req, res){
 	}
 	else
 	{
-		res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Content-Type', 'application/json; charset=utf-8');
 		res.send('{ "Error": "Invalid payload."}', 400);
 		res.end;
 	}

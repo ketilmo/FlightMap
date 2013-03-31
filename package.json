@@ -8,14 +8,14 @@
   },
   "dependencies": {
     "express": "3.1.0",
-    "jade": "*",
+    "jade": "0.28.2",
     "mongoose": "3.6.x",
-	"socket.io": "0.9.13",
+	"socket.io": "0.9.14",
 	"geojson": "0.1.3" 
   },
   "subdomain": "GliderLog",
   "engines": {
-    "node": "0.8.x"
+    "node": "0.10.x"
   },
   "readmeFilename": "README.md",
   "gitHead": "7444dd57607d2b465135d4f80f28731f95407db0",
@@ -25,8 +25,9 @@
     "test": "test"
   },
   "devDependencies": {
-    "mocha": "1.8.1",
-    "restify": "2.3.x"
+    "mocha": "1.8.2",
+    "restify": "2.3.x",
+    "should": "1.2.2"
   },
   "repository": {
     "type": "git",
