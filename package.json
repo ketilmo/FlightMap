@@ -1,6 +1,6 @@
 {
   "name": "GliderLog",
-  "version": "0.0.1-46",
+  "version": "0.0.1-48",
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -13,7 +13,8 @@
     "socket.io": "0.9.14",
     "geojson": "0.1.3",
     "moment": "2.0.0",
-    "validator": "0.4.28"
+    "validator": "0.4.28",
+    "underscore": "1.4.4"
   },
   "subdomain": "GliderLog",
   "engines": {
