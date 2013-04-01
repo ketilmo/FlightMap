@@ -87,3 +87,6 @@ server.listen(app.get('port'), function(){
 io.sockets.on('connection', function(socket) {
 	clientGeoDataEmitter.onConnection(socket);
 });
+
+// Load track data from database
+clientGeoDataEmitter.cacheTrackPointData();
