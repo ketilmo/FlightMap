@@ -1,24 +1,24 @@
 {
   "name": "GliderLog",
-  "version": "0.0.1-48",
+  "version": "0.0.1-53",
   "private": true,
   "scripts": {
     "start": "node app.js",
     "test": "mocha"
   },
   "dependencies": {
-    "express": "3.1.0",
-    "jade": "0.28.2",
+    "express": "3.3.4",
+    "jade": "0.32.0",
     "mongoose": "3.6.x",
-    "socket.io": "0.9.14",
-    "geojson": "0.1.3",
-    "moment": "2.0.0",
-    "validator": "0.4.28",
-    "underscore": "1.4.4"
+    "socket.io": "0.9.16",
+    "geojson": "0.1.4",
+    "moment": "2.1.0",
+    "validator": "1.2.1",
+    "underscore": "1.5.1"
   },
   "subdomain": "GliderLog",
   "engines": {
-    "node": "0.8.x"
+    "node": "0.10.x"
   },
   "readmeFilename": "README.md",
   "gitHead": "7444dd57607d2b465135d4f80f28731f95407db0",
@@ -28,8 +28,8 @@
     "test": "test"
   },
   "devDependencies": {
-    "mocha": "1.8.2",
-    "restify": "2.3.x",
+    "mocha": "1.12.0",
+    "restify": "2.6.x",
     "should": "1.2.2"
   },
   "repository": {
