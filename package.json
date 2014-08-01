@@ -1,5 +1,5 @@
 {
-  "name": "GliderLog",
+  "name": "FlightMap",
   "version": "0.0.1-53",
   "scripts": {
     "start": "node app.js",
@@ -21,7 +21,7 @@
   },
   "readmeFilename": "README.md",
   "gitHead": "7444dd57607d2b465135d4f80f28731f95407db0",
-  "description": "GliderLog\r =========",
+  "description": "FlightMap\r =========",
   "main": "app.js",
   "directories": {
     "test": "test"
@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ketilmo/GliderLog.git"
+    "url": "https://github.com/ketilmo/FlightMap.git"
   },
   "author": "Ketil Moland Olsen",
   "license": "BSD"
