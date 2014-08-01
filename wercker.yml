@@ -15,27 +15,27 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
-  deploy:
-    steps:
-      - add-to-known_hosts:
-          hostname: $SERVER_HOSTNAME
-      - add-ssh-key:
-          keyname: DOKKU
-      - script:
-          name: Initialize new repository
-          code: |
-              rm -rf .git
-            git init
-            git config --global user.name "wercker"
-            git config --global user.email "pleasemailus@wercker.com"
-            git remote add dokku dokku@$SERVER_HOSTNAME:getting-started-nodejs
-      - script:
-          name: Add everything to the repository
-          code: |
-            git add .
-            git commit -m "Result of deploy $WERCKER_GIT_COMMIT"
-      - script:
-          name: Push to dokku
-          code: |
-            git push app1 master
+deploy:
+  steps:
+    - add-to-known_hosts:
+        hostname: $SERVER_HOSTNAME
+    - add-ssh-key:
+        keyname: DOKKU
+    - script:
+        name: Initialize new repository
+        code: |
+          rm -rf .git
+          git init
+          git config --global user.name "wercker"
+          git config --global user.email "pleasemailus@wercker.com"
+          git remote add dokku dokku@$SERVER_HOSTNAME:getting-started-nodejs
+    - script:
+        name: Add everything to the repository
+        code: |
+          git add .
+          git commit -m "Result of deploy $WERCKER_GIT_COMMIT"
+    - script:
+        name: Push to dokku
+        code: |
+          git push dokku master
 
