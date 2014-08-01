@@ -6,18 +6,18 @@
     "test": "mocha"
   },
   "dependencies": {
-    "express": "3.3.4",
-    "jade": "0.32.0",
-    "mongoose": "3.6.x",
-    "socket.io": "0.9.16",
-    "geojson": "0.1.4",
-    "moment": "2.1.0",
-    "validator": "1.2.1",
-    "underscore": "1.5.1"
+    "express": "4.7.2",
+    "jade": "1.5.0",
+    "mongoose": "3.8.x",
+    "socket.io": "1.0.6",
+    "geojson": "0.1.5",
+    "moment": "2.8.0",
+    "validator": "3.16.1",
+    "underscore": "1.6.0"
   },
   "engines": {
     "node": "0.10.x",
-    "npm": "1.2.x"
+    "npm": "1.3.x"
   },
   "readmeFilename": "README.md",
   "gitHead": "7444dd57607d2b465135d4f80f28731f95407db0",
@@ -27,9 +27,9 @@
     "test": "test"
   },
   "devDependencies": {
-    "mocha": "1.12.0",
-    "restify": "2.6.x",
-    "should": "1.2.2"
+    "mocha": "1.21.3",
+    "restify": "2.8.x",
+    "should": "4.0.4"
   },
   "repository": {
     "type": "git",
