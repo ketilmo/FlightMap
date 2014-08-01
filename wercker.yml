@@ -45,4 +45,3 @@ deploy:
         username: $NOTIFY_SMTPUSER
         password: $NOTIFY_SMTPPASS
         host: smtp.mailgun.org
-      
