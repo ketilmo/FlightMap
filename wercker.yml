@@ -40,9 +40,9 @@ deploy:
           git push dokku master
   after-steps:
     - mies/email-notify:
-      from: alerts@wercker.com
-      to: ketil@ketilmo.com
-      username: $NOTIFY_SMTPUSER
-      password: $NOTIFY_SMTPPASS
-      host: smtp.mailgun.org
+        from: alerts@wercker.com
+        to: ketil@ketilmo.com
+        username: $NOTIFY_SMTPUSER
+        password: $NOTIFY_SMTPPASS
+        host: smtp.mailgun.org
       
