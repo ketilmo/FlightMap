@@ -1,9 +1,4 @@
-GliderLog [![Build Status](https://secure.travis-ci.org/ketilmo/GliderLog.png)](http://travis-ci.org/ketilmo/GliderLog) 
+FlightMap [![wercker status](https://app.wercker.com/status/d07b917730a9f5dad820ab26c5e29e64/m "wercker status")](https://app.wercker.com/project/bykey/d07b917730a9f5dad820ab26c5e29e64)
 =========
 
-Glider Logging Utility
-
-#### Application Deployment Status
-
-
-[![Nodejitsu Deploy Status Badges](https://webhooks.nodejitsu.com/ketilmo/GliderLog.png)](https://webops.nodejitsu.com#ketilmo/GliderLog) 
+Simple realtime flight tracking web app
