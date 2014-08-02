@@ -34,7 +34,7 @@ if ('development' == env) {
 		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
 		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
 	);
-});
+};
 
 if ('test' == env) {
     app.set('port', process.env.PORT || 3000);
@@ -44,7 +44,7 @@ if ('test' == env) {
 		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
 		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
 	);
-});
+};
 
 if ('production' == env) {
 	app.set('port', process.env.PORT || 80);
@@ -53,7 +53,7 @@ if ('production' == env) {
 		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
 		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
 	);
-});
+};
 
 // Initiate database connection
 var db = mongoose.connection;
