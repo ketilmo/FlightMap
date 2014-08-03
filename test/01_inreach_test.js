@@ -5,7 +5,7 @@ var restify = require('restify');
 var should = require('should');
 
 // Application dependencies
-var app = require('../app.js');
+//var app = require('../app.js');
 
 // Generate payload object that can be customized later.
 function generateInReachPayload(numberOfEvents)

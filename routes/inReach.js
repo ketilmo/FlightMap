@@ -109,7 +109,7 @@ exports.postInReachEntries = function(req, res){
 	{
 		// Return a status message to the client.
 		res.setHeader('Content-Type', 'application/json; charset=utf-8');
-		res.send(message, statusCode);
+		res.status(statusCode).send(message)
 		res.end;
 	}
 }

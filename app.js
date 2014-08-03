@@ -5,6 +5,10 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	http = require('http'),
 	path = require('path'),
+	favicon = require('serve-favicon'),
+	morgan  = require('morgan'),
+	bodyParser = require('body-parser'),
+	methodOverride = require('method-override'),
 	routes = require('./routes'),
 	inreach = require('./routes/inReach'),
 	statusCodes = require('./routes/statusCodes'),
@@ -12,49 +16,49 @@ var express = require('express'),
 
 var app = express();
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 80);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
-});
+var env = process.env.NODE_ENV || 'development';
+ 
+app.set('port', process.env.PORT || 80);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+// app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(morgan('tiny'));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(methodOverride());
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Error handling
 var error = require('./lib/errorHandler');
 
-app.configure('development', function(){
+if ('development' == env) {
     app.set('port', process.env.PORT || 3000);
-    app.use(express.logger('dev'));
+	app.use(morgan('dev'));
     app.use(error({ showMessage: true, dumpExceptions: true, showStack: true, logErrors: false }));
 	mongoose.connect(
 		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
 		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
 	);
-});
+};
 
-app.configure('test', function(){
+if ('test' == env) {
     app.set('port', process.env.PORT || 3000);
-    app.use(express.logger('dev'));
+    app.use(morgan('dev'));
     app.use(error({ showMessage: true, dumpExceptions: true, showStack: true, logErrors: false }));
 	mongoose.connect(
 		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
 		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
 	);
-});
+};
 
-app.configure('production', function(){
+if ('production' == env) {
 	app.set('port', process.env.PORT || 80);
 	app.use(error());
 	mongoose.connect(
 		'mongodb://'+ process.env.gliderlog_db_prod_username + ':' + process.env.gliderlog_db_prod_password + 
 		"@" + process.env.gliderlog_db_prod_server + "/" + process.env.gliderlog_db_prod_database
 	);
-});
+};
 
 // Initiate database connection
 var db = mongoose.connection;
