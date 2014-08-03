@@ -1,6 +1,6 @@
 {
   "name": "FlightMap",
-  "version": "0.0.1-53",
+  "version": "0.0.1-54",
   "scripts": {
     "start": "node app.js",
     "test": "mocha"
