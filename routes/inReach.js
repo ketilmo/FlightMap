@@ -14,7 +14,10 @@ exports.postInReachEntries = function(req, res){
 		try {
 		
 			// Check that payload contains at least one event.
-			check((typeof inReachEntries.Events === "undefined"), 'No Events found in payload.').equals(false);
+			if (typeof inReachEntries.Events === "undefined")
+			{
+				throw "No Events found in payload."
+			}
 		}
 		
 		catch (e) {
@@ -42,7 +45,7 @@ exports.postInReachEntries = function(req, res){
 				check(parseInt(inReachEntry.point.course), 'Missing or invalid course.').isNumeric();
 				check(parseInt(inReachEntry.point.speed), 'Missing or invalid speed.').isNumeric();
 				check(parseInt(inReachEntry.messageCode), 'Missing or invalid messageCode.').isNumeric();
-				check(moment(inReachEntry.timeStamp).isValid(), 'Missing or invalid timeStamp.').equals(true); 
+				check(moment(inReachEntry.timeStamp).isValid().toString(), 'Missing or invalid timeStamp.').equals("true"); 
 
 				// Create a new trackPoint.
 				var trackPoint = new mongooseModels.TrackPoint({ 
