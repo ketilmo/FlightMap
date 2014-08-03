@@ -15,13 +15,6 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
-    - script:
-        name: Coveralls.io
-        code: |-
-            # The COVERALLS_TOKEN is set in the project at
-            # wercker as project environment variable.
-            go get github.com/mattn/goveralls
-            goveralls -package="./..." -service='wercker.com' $COVERALLS_TOKEN
 deploy:
   steps:
     - add-to-known_hosts:
