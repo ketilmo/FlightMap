@@ -12,7 +12,7 @@
     "socket.io": "1.0.6",
     "geojson": "0.1.5",
     "moment": "2.8.x",
-    "validator": "3.16.1",
+    "validator": "1.2.1",
     "underscore": "1.5.1"
   },
   "engines": {
